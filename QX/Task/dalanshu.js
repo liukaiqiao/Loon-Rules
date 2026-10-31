@@ -1,8 +1,8 @@
 * [rewrite_local]
-* ^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status url script-request-header https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js
+* ^https:\/\/dalanshu\.top\/api\/v1\/me\/checkin\/status url script-request-header https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/QX/Task/dalanshu.js
 * 
 * [task_local]
-* 00 7 * * * https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/dalanshu/dalanshu_checkin.js, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png, enabled=true
+* 00 7 * * * https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/QX/Task/dalanshu.js, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png, enabled=true
 * 
 * [mitm]
 * hostname = dalanshu.top
