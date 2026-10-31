@@ -1,0 +1,13 @@
+#!name=大蓝树自动签到 (自建版)
+#!desc=大蓝树每日自动签到，包含获取Token与定时任务。
+#!author=liukaiqiao
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+[Script]
+1. 获取 Token
+(注意：这里我暂时保留了 fmz200 的链接。你也可以用同样的方法，把 get_cookie.js 存到你的仓库里，然后把下面这个链接替换掉)
+http-request ^https://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=true, timeout=20, tag=大蓝树每日签到Token
+2. 定时签到
+(这里已经完美换成了你自己的 GitHub 专属链接！每天早上 7:00 自动执行)
+cron "00 7 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/dalanshu_checkin.js, timeout=60, tag=大蓝树每日签到
+[Mitm]
+hostname = dalanshu.top
