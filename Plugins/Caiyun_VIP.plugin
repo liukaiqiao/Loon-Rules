@@ -1,0 +1,12 @@
+#!name=彩云天气 SVIP (自建版)
+#!desc=解锁彩云天气 SVIP 权限。底层脚本归属 chxm1023。
+#!author=liukaiqiao
+#!icon=https://gitlab.com/lodepuly/iconlibrary/-/raw/main/App_icon/120px/ColorfulCloudsPro.png
+
+[Script]
+# 拦截彩云天气的用户鉴权接口，并调用你自己 GitHub 里的 js 脚本处理
+http-response ^https?:\/\/(biz|wrapper)\.(caiyunapp|cyapi)\.(com|cn)\/v\d\/(user|membership_info) script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Plugins/caiyuntianqi.js, requires-body=true, timeout=20, tag=彩云天气SVIP
+
+[Mitm]
+# 抓取彩云天气核心域名的 HTTPS 流量
+hostname = biz.caiyunapp.com, wrapper.caiyunapp.com, biz.cyapi.cn, wrapper.cyapi.cn
