@@ -1,0 +1,2 @@
+request if ${url} ~= /^https?:\/\/.*\.mixcapp\.com/i then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/mixc_signin.js") with tag="一点万象获取Token", img_url="https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/airport/airport.png", requires_body=true
+cron "00 7 * * *" then script("https://raw.githubusercontent.com/ZenmoFeiShi/Qx/refs/heads/main/mixc_signin.js") with tag="一点万象每日签到", img_url="https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/airport/airport.png", timeout=60
