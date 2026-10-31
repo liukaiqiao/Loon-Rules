@@ -9,4 +9,4 @@
 http-response ^https?:\/\/biz\.(caiyunapp|cyapi)\.(com|cn)\/(v\d\/user|ops\/v\d\/app_limit\/ad_vip) script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Plugins/caiyuntianqi.js, requires-body=true, timeout=20, tag=彩云天气SVIP
 
 [Mitm]
-hostname = biz.caiyunapp.com, biz.cyapi.cn
+hostname = cdn-w.caiyunapp.com,biz.caiyunapp.com,wrapper.caiyunapp.com,ad.cyapi.cn,biz.cyapi.cn,wrapper.cyapi.cn
