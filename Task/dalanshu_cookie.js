@@ -10,12 +10,15 @@ const checkinUrl = "https://dalanshu.top/api/v1/me/checkin";
 
 // 1. 执行定时签到主逻辑
 async function checkIn() {
-  const token = $.read("dalanshu_token");
+  let token = $.read("dalanshu_token");
   if (!token) {
     $.log("❌ 未检测到大蓝树 Token，请先在浏览器登录并打开个人中心以自动抓取！");
     $.msg("大蓝树签到失败", "未找到 Token", "请先打开网页登录并触发抓包");
     return;
   }
+
+  // 确保去掉可能重复的 Bearer 前缀
+  token = token.replace(/^Bearer\s+/i, "").trim();
 
   const headers = {
     "Authorization": `Bearer ${token}`,
@@ -70,7 +73,7 @@ function Env(name) {
   this.name = name;
   this.isLoon = typeof $loon !== "undefined";
   this.isQX = typeof $task !== "undefined";
-  
+  
   this.read = (key) => {
     if (this.isLoon) return $persistentStore.read(key);
     if (this.isQX) return $prefs.valueForKey(key);
@@ -84,7 +87,7 @@ function Env(name) {
   };
 
   this.log = (msg) => console.log(`[${this.name}] ${msg}`);
-  
+  
   this.msg = (title, subtitle, body) => {
     if (this.isLoon) $notification.post(title, subtitle, body);
     if (this.isQX) $notify(title, subtitle, body);
