@@ -1,57 +1,17 @@
-/
-￼ 大蓝树自动签到脚本 (增强版)
-￼ 配合 DaLanShu_Checkin.plugin 使用
-*/
-const $ = new Env("大蓝树签到");
-const tokenKey = "dalanshu_token";
-async function signin() {
-console.log("🔔 [大蓝树] 签到任务开始执行...");
-const token = $.getVal(tokenKey);
-if (!token) {
-console.log("❌ [大蓝树] 未找到 Token，请先登录网页获取！");
-.msg(.name, "❌ 签到失败", "未找到 Token，请先登录网页或打开个人中心获取！");
-$.done();
-return;
-}
-const url = "https://dalanshu.top/api/v1/me/checkin";
-const headers = {
-"Cookie": token,
-"User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148"
-};
-const request = {
-url: url,
-headers: headers,
-timeout: 60000
-};
-$.post(request, (error, response, data) => {
-try {
-if (error) {
-console.log(⁠❌ [大蓝树] 请求出错: ${JSON.stringify(error)}⁠);
-￼.name, "❌ 签到请求失败", error);
-return;
-}
-console.log(⁠📥 [大蓝树] 收到服务器响应: ${data}⁠);
-const result = JSON.parse(data);
-if (result.code === 200 || result.success || (result.message && result.message.includes("成功"))) {
-￼.name, "🎉 签到成功", result.message || "今日签到已完成！");
-} else {
-￼.name, "⚠️ 签到提示", result.message || data);
-}
-} catch (e) {
-console.log(⁠❌ [大蓝树] 解析响应异常: ${e.message}, 原始数据: ${data}⁠);
-￼.name, "❌ 解析响应异常", e.message);
-} finally {
-$.done();
-}
-});
-}
-// 兼容 Loon 环境的简易 Env 构造器
-function Env(name) {
-this.name = name;
-this.getVal = (key) => $persistentStore.read(key);
-this.setVal = (key, val) => $persistentStore.write(val, key);
-this.msg = (title, subtitle, detail) => $notification.post(title, subtitle, detail);
-this.post = (opts, callback) => $httpClient.post(opts, callback);
-this.done = (value = {}) => $done(value);
-}
-signin();
+#!name=大蓝树自动签到 (自建重构版)
+#!desc=大蓝树每日自动签到，包含获取Token与定时任务。
+#!author=liukaiqiao
+#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+
+[Script]
+
+1. 获取 Token (拦截状态接口，利用内置脚本提取身份凭证)
+
+http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+
+2. 定时签到 (每天早上 8:30 执行你个人仓库里的 dalanshu.js)
+
+cron "30 8 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+
+[Mitm]
+hostname = dalanshu.top
