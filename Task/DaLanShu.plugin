@@ -1,11 +1,12 @@
-#!name=大蓝树自动签到 (自建重构版)
-#!desc=大蓝树每日自动签到，包含获取Token与定时任务。
+#!name=大蓝树自动签到 (原生规则版)
+#!desc=使用 Loon 原生脚本规则与定时任务语法进行大蓝树签到。
 #!author=liukaiqiao
 #!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Script]
-1. 获取 Token (拦截状态接口，利用内置脚本提取身份凭证)
-http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
-2. 定时签到 (每天早上 8:30 执行你个人仓库里的 dalanshu.js)
+1. 获取 Token (拦截状态接口并提取凭证)
+http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+2. 定时签到 (每天早上 8:30 执行)
 cron "30 8 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Mitm]
 hostname = dalanshu.top
+
