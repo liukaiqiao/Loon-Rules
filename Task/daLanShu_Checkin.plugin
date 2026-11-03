@@ -4,7 +4,7 @@
 #!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Script]
 1. 获取 Token (使用你验证过能成功抓取的 fmz200 脚本)
-http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 2. 定时签到 (已精准对齐为你仓库大写 D 的 Dalanshu_checkin.js 路径！)
 cron "5 7 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/Dalanshu_checkin.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Mitm]
