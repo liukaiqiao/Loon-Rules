@@ -1,17 +1,36 @@
-#!name=大蓝树自动签到 (自建重构版)
-#!desc=大蓝树每日自动签到，包含获取Token与定时任务。
-#!author=liukaiqiao
-#!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+/*
+  大蓝树专用 Token 抓取脚本 (Loon 原生适配)
+  保存路径: Task/dalanshu_cookie.js
+*/
 
-[Script]
+const $ = new Env("大蓝树获取Token");
 
-1. 获取 Token (拦截状态接口，利用内置脚本提取身份凭证)
+function getCookie() {
+  // 从请求头中提取 Authorization 或 Cookie
+  const req = typeof $request !== "undefined" ? $request : null;
+  if (!req) {
+    $.log("❌ 未获取到请求对象");
+    return;
+  }
 
-http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/fmz200/wool_scripts/main/Scripts/cookie/get_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+  const headers = req.headers;
+  // 尝试获取 Authorization
+  const auth = headers["Authorization"] || headers["authorization"];
 
-2. 定时签到 (每天早上 7:05 执行你个人仓库里的 dalanshu.js)
+  if (auth) {
+    $.write(auth.replace("Bearer ", ""), "dalanshu_token");
+    $.msg("🎉 大蓝树 Token 获取成功", "", "已成功写入凭证，定时签到可以正常运行啦！");
+    $.log("✅ 成功抓取 Token: " + auth);
+  } else {
+    $.log("⚠️ 未在请求头中找到 Authorization，请检查接口。");
+  }
+}
 
-cron "05 7 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+getCookie();
 
-[Mitm]
-hostname = dalanshu.top
+function Env(name) {
+  this.name = name;
+  this.write = (val, key) => $persistentStore.write(val, key);
+  this.log = (msg) => console.log(`[${this.name}] ${msg}`);
+  this.msg = (title, sub, body) => $notification.post(title, sub, body);
+}
