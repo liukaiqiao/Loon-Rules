@@ -1,11 +1,11 @@
-#!name=大蓝树自动签到 (原生规则版)
-#!desc=每日早上 7:05 自动签到大蓝树，完美对接 Token 存储。
+#!name=大蓝树自动签到 (二合一终极版)
+#!desc=抓包与签到共用同一个自建脚本，彻底解决 Token 变量名不匹配与过期问题。
 #!author=liukaiqiao
 #!icon=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Script]
-1. 获取 Token (使用你验证过能成功抓取的 fmz200 脚本)
-http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu_cookie.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
-2. 定时签到 (已精准对齐为你仓库大写 D 的 Dalanshu_checkin.js 路径！)
-cron "5 7 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/dalanshu_cookie.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+1. 获取 Token (直接调用你自己的二合一脚本，自己抓自己存，绝不串台！)
+http-request ^https?://dalanshu.top/api/v1/me/checkin/status script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/Dalanshu_checkin.js, requires-body=false, timeout=20, tag=大蓝树获取Token, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
+2. 定时签到 (每天早上 7:05 执行)
+cron "5 7 * * *" script-path=https://raw.githubusercontent.com/liukaiqiao/Loon-Rules/refs/heads/main/Task/Dalanshu_checkin.js, timeout=60, tag=大蓝树每日签到, img-url=https://raw.githubusercontent.com/fmz200/wool_scripts/main/icons/apps/dalanshu.png
 [Mitm]
 hostname = dalanshu.top
