@@ -1,6 +1,6 @@
 /*
-  大蓝树 (dalanshu.top) 自动签到脚本 (精准适配 Dalanshu_checkin.js)
-  完美对接 fmz200 的 get_cookie.js 存储键名，彻底解决 401 鉴权报错
+  大蓝树 (dalanshu.top) 自动签导脚本 (终极 401 修复版)
+  精准清理重复的 Bearer 前缀，确保鉴权完全合法
   保存路径：Task/Dalanshu_checkin.js
 */
 
@@ -8,7 +8,6 @@ const $ = new Env("大蓝树自动签到");
 const checkinUrl = "https://dalanshu.top/api/v1/me/checkin";
 
 async function checkIn() {
-  // 完美对齐 fmz200 默认抓取脚本存入的变量名
   let token = $.read("fmz200_dalanshu_authorization") || $.read("dalanshu_token") || $.read("dalanshu_authorization");
   
   if (!token) {
@@ -18,10 +17,11 @@ async function checkIn() {
     return;
   }
 
-  // 智能处理 Bearer 前缀，确保鉴权格式完美合规
-  token = token.trim();
-  const authHeader = token.startsWith("Bearer") ? token : `Bearer ${token}`;
-  $.log("🔑 当前使用的鉴权头: " + authHeader);
+  // 彻底清洗 Token：移除所有多余的 Bearer 前缀和空格，然后统一规范拼装
+  token = token.replace(/Bearer/gi, "").trim();
+  const authHeader = `Bearer ${token}`;
+  
+  $.log("🔑 清洗后最终使用的鉴权头: " + authHeader);
 
   const headers = {
     "Authorization": authHeader,
@@ -31,7 +31,6 @@ async function checkIn() {
     "User-Agent": "app/100468 CFNetwork/3860.200.71 Darwin/25.1.0"
   };
 
-  // 发起签到请求 (POST)
   $.post({ url: checkinUrl, headers: headers, body: "{}" }, (err, resp, body) => {
     try {
       if (err) {
@@ -60,9 +59,6 @@ async function checkIn() {
 
 checkIn();
 
-// ==========================================
-// 兼容 Loon / QX 的极简 Env 框架
-// ==========================================
 function Env(name) {
   this.name = name;
   this.isLoon = typeof $loon !== "undefined";
