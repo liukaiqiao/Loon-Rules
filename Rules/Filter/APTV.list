@@ -1,0 +1,29 @@
+=========================================
+APTV 及常用海外直播源分流规则
+保存路径建议：Filter/APTV.list
+注意：规则列表内不写策略，策略在 Loon 引用时绑定为“美国节点”
+=========================================
+1. APTV 客户端标识与官方域名 (App 自身请求与同步)
+USER-AGENT,APTV*
+DOMAIN-SUFFIX,aptv.app
+2. 常用 IPTV 直播源列表与台标托管 (防止拉取 m3u 列表与节目单失败)
+DOMAIN-SUFFIX,iptv-org.github.io
+DOMAIN-SUFFIX,raw.githubusercontent.com
+DOMAIN-SUFFIX,gist.githubusercontent.com
+DOMAIN-SUFFIX,epg.pw
+3. 常见海外电视直播流 CDN 与流媒体分发特征 (加速海外频道画面加载)
+DOMAIN-SUFFIX,akamaized.net
+DOMAIN-SUFFIX,llnwd.net
+DOMAIN-SUFFIX,footprint.net
+DOMAIN-SUFFIX,fastly.net
+DOMAIN-SUFFIX,cloudfront.net
+DOMAIN-SUFFIX,uplynk.com
+DOMAIN-SUFFIX,anvato.net
+DOMAIN-SUFFIX,brightcove.com
+DOMAIN-SUFFIX,jwpsrv.com
+DOMAIN-SUFFIX,jwpcdn.com
+DOMAIN-SUFFIX,theoplayer.com
+DOMAIN-SUFFIX,bitmovin.com
+4. 常见关键词匹配 (兜底匹配海外 m3u8 直播流接口)
+DOMAIN-KEYWORD,iptv
+DOMAIN-KEYWORD,live-hls
